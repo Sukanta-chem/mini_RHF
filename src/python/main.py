@@ -1,4 +1,5 @@
 from molecule import Molecule
+from sto3g import build_basis
 
 mol = Molecule("../../examples/h2.xyz")
 
@@ -12,3 +13,12 @@ energy = mol.nuclear_repulsion()
 
 print("\nNuclear repulsion energy:")
 print(energy)
+
+basis = build_basis(mol)
+print("\nNumber of basis functions:", len(basis))
+
+for i, bf in enumerate(basis):
+
+    print("\nBasis function", i)
+    print("center:", bf.center)
+    print("exponents:", bf.exponents)
