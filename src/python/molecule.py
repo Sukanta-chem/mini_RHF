@@ -16,14 +16,15 @@ class Molecule:
             lines = f.readlines()
 
         lines = lines[2:]
-
+        
+        A_to_Bohr = 1.8897259886
         for line in lines:
             parts = line.split()
             atom = parts[0]
 
-            x = float(parts[1])
-            y = float(parts[2])
-            z = float(parts[3])
+            x = float(parts[1]) * A_to_Bohr
+            y = float(parts[2]) * A_to_Bohr
+            z = float(parts[3]) * A_to_Bohr
 
             self.symbols.append(atom)
             self.coords.append([x, y, z])
