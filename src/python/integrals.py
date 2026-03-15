@@ -2,9 +2,8 @@ import numpy as np
 
 def primitive_overlap(alpha, beta, A, B):
 
-    # distance between centers
     R = np.linalg.norm(A - B)
-    R2 = R * R
+    R2 = np.dot(A - B, A - B)
 
     p = alpha + beta
     prefactor = (np.pi / p) ** 1.5
