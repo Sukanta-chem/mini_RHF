@@ -19,13 +19,15 @@ def overlap(bf1, bf2):
     for i in range(bf1.nprimitive):
         alpha = bf1.exponents[i]
         ci = bf1.coefficients[i]
+        Ni = (2*alpha/np.pi)**0.75
 
         for j in range(bf2.nprimitive):
             beta = bf2.exponents[j]
             cj = bf2.coefficients[j]
+            Nj = (2*beta/np.pi)**0.75
 
             Sij = primitive_overlap(alpha, beta, bf1.center, bf2.center)
-            S += ci * cj * Sij
+            S += ci * cj * Ni * Nj * Sij
 
     return S
 
