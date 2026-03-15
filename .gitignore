@@ -1,0 +1,17 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# compiled Fortran
+*.o
+*.mod
+*.so
+
+# editor files
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
