@@ -1,5 +1,6 @@
 from molecule import Molecule
 from sto3g import build_basis
+from integrals import build_overlap_matrix
 
 mol = Molecule("../../examples/h2.xyz")
 
@@ -22,3 +23,8 @@ for i, bf in enumerate(basis):
     print("\nBasis function", i)
     print("center:", bf.center)
     print("exponents:", bf.exponents)
+
+
+S = build_overlap_matrix(basis)
+print("\nOverlap matrix:")
+print(S)
