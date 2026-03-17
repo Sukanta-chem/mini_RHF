@@ -2,6 +2,7 @@ from molecule import Molecule
 from sto3g import build_basis
 from integrals import build_overlap_matrix
 from integrals import build_kinetic_matrix
+from integrals import build_nuclear_matrix
 
 mol = Molecule("../../examples/h2.xyz")
 
@@ -30,6 +31,12 @@ S = build_overlap_matrix(basis)
 print("\nOverlap matrix:")
 print(S)
 
+
 T = build_kinetic_matrix(basis)
 print("\nKinetic energy matrix:")
 print(T)
+
+
+V = build_nuclear_matrix(basis, mol)
+print("\nNuclear attraction matrix:")
+print(V)
