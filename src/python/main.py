@@ -1,6 +1,7 @@
 from molecule import Molecule
 from sto3g import build_basis
 from integrals import build_overlap_matrix
+from integrals import build_kinetic_matrix
 
 mol = Molecule("../../examples/h2.xyz")
 
@@ -28,3 +29,7 @@ for i, bf in enumerate(basis):
 S = build_overlap_matrix(basis)
 print("\nOverlap matrix:")
 print(S)
+
+T = build_kinetic_matrix(basis)
+print("\nKinetic energy matrix:")
+print(T)
