@@ -1,0 +1,49 @@
+---------------------------------------
+Restricted Hartree-Fock
+---------------------------------------
+
+Atoms: ['H', 'H']
+
+Coordinates:
+    0.000000    0.000000   -0.699199
+    0.000000    0.000000    0.699199
+
+Nuclear repulsion energy:
+0.71510439
+
+Number of basis functions: 2
+
+Basis function 0
+center: [ 0.          0.         -0.69919862]
+exponents: [3.42525091, 0.62391373, 0.1688554]
+
+Basis function 1
+center: [0.         0.         0.69919862]
+exponents: [3.42525091, 0.62391373, 0.1688554]
+
+Overlap matrix:
+    1.000000    0.659873
+    0.659873    1.000000
+
+Kinetic energy matrix:
+    0.760032    0.236960
+    0.236960    0.760032
+
+Nuclear attraction matrix:
+   -1.880991   -1.196336
+   -1.196336   -1.880991
+
+Core Hamiltonian:
+   -1.120959   -0.959376
+   -0.959376   -1.120959
+
+Some ERI values:
+(0 0 | 0 0): 0.774606
+(0 0 | 1 1): 0.569995
+(0 1 | 0 1): 0.297591
+Iter   1  Energy = -1.79151525
+Iter   2  Energy = -1.11675931
+Iter   3  Energy = -1.11675931
+
+Final RHF Energy:
+-1.11675931 Hartree

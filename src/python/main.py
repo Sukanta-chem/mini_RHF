@@ -5,58 +5,68 @@ from integrals import build_kinetic_matrix
 from integrals import build_nuclear_matrix
 from integrals import build_eri_tensor
 from scf import scf
+from logger import Logger
 
 mol = Molecule("../../examples/h2.xyz")
+log = Logger("RHF.log")
 
-print("Atoms:")
-print(mol.symbols)
+log.write("---------------------------------------")
+log.write("Restricted Hartree-Fock")
+log.write("---------------------------------------\n")
+log.write("Atoms: " + str(mol.symbols))
 
-print("\nCoordinates:")
-print(mol.coords)
+log.write("\nCoordinates:")
+for c in mol.coords:
+    log.write("  " + "  ".join(f"{x:10.6f}" for x in c))
 
 energy = mol.nuclear_repulsion()
 
-print("\nNuclear repulsion energy:")
-print(energy)
+log.write("\nNuclear repulsion energy:")
+log.write(f"{energy:.8f}")
 
 basis = build_basis(mol)
-print("\nNumber of basis functions:", len(basis))
+log.write(f"\nNumber of basis functions: {len(basis)}")
 
 for i, bf in enumerate(basis):
-
-    print("\nBasis function", i)
-    print("center:", bf.center)
-    print("exponents:", bf.exponents)
+    log.write(f"\nBasis function {i}")
+    log.write(f"center: {bf.center}")
+    log.write(f"exponents: {bf.exponents}")
 
 
 S = build_overlap_matrix(basis)
-print("\nOverlap matrix:")
-print(S)
+log.write("\nOverlap matrix:")
+for row in S:
+    log.write("  " + "  ".join(f"{x:10.6f}" for x in row))
 
 
 T = build_kinetic_matrix(basis)
-print("\nKinetic energy matrix:")
-print(T)
+log.write("\nKinetic energy matrix:")
+for row in T:
+    log.write("  " + "  ".join(f"{x:10.6f}" for x in row))
 
 
 V = build_nuclear_matrix(basis, mol)
-print("\nNuclear attraction matrix:")
-print(V)
+log.write("\nNuclear attraction matrix:")
+for row in V:
+    log.write("  " + "  ".join(f"{x:10.6f}" for x in row))
 
 
 H = T + V
-print("\nCore Hamiltonian:")
-print(H)
+log.write("\nCore Hamiltonian:")
+for row in H:
+    log.write("  " + "  ".join(f"{x:10.6f}" for x in row))
 
 
 ERI = build_eri_tensor(basis)
-print("\nSome ERI values:")
-print("(0 0 | 0 0):", ERI[0,0,0,0])
-print("(0 0 | 1 1):", ERI[0,0,1,1])
-print("(0 1 | 0 1):", ERI[0,1,0,1])
+log.write("\nSome ERI values:")
+log.write(f"(0 0 | 0 0): {ERI[0,0,0,0]:.6f}")
+log.write(f"(0 0 | 1 1): {ERI[0,0,1,1]:.6f}")
+log.write(f"(0 1 | 0 1): {ERI[0,1,0,1]:.6f}")
 
 
 nelec = 2
 nocc = nelec // 2
-E_total = scf(H, S, ERI, nocc, mol.nuclear_repulsion())
-print("\nFinal RHF Energy:", E_total)
+E_total = scf(H, S, ERI, nocc, mol.nuclear_repulsion(), log)
+log.write("\nFinal RHF Energy:")
+log.write(f"{E_total:.8f} Hartree")
+log.close()

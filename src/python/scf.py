@@ -45,7 +45,7 @@ def compute_energy(P, H, F):
     return E
 
 
-def scf(H, S, ERI, nocc, Enuc):
+def scf(H, S, ERI, nocc, Enuc, log):
     X = orthogonalization_matrix(S)
     n = H.shape[0]
     P = np.zeros((n, n))
@@ -69,13 +69,13 @@ def scf(H, S, ERI, nocc, Enuc):
         # energy
         E_elec = compute_energy(P, H, F)
         E_total = E_elec + Enuc
-        print(f"Iter {iteration+1}: Energy = {E_total:.8f}")
+        log.write(f"Iter {iteration+1:3d}  Energy = {E_total:.8f}")
 
         if abs(E_total - E_old) < 1e-8:
-            print("\nSCF Converged")
+            log.write("\nSCF Converged")
             return E_total
 
         E_old = E_total
 
-    print("SCF did not converge")
+    log.write("\nSCF did not converge")
     return E_total
