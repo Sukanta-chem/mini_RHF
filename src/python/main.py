@@ -3,6 +3,7 @@ from sto3g import build_basis
 from integrals import build_overlap_matrix
 from integrals import build_kinetic_matrix
 from integrals import build_nuclear_matrix
+from integrals import build_eri_tensor
 
 mol = Molecule("../../examples/h2.xyz")
 
@@ -40,3 +41,15 @@ print(T)
 V = build_nuclear_matrix(basis, mol)
 print("\nNuclear attraction matrix:")
 print(V)
+
+
+H = T + V
+print("\nCore Hamiltonian:")
+print(H)
+
+
+ERI = build_eri_tensor(basis)
+print("\nSome ERI values:")
+print("(0 0 | 0 0):", ERI[0,0,0,0])
+print("(0 0 | 1 1):", ERI[0,0,1,1])
+print("(0 1 | 0 1):", ERI[0,1,0,1])

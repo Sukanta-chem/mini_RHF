@@ -147,3 +147,71 @@ def build_nuclear_matrix(basis, molecule):
 
     return V
 
+
+def primitive_eri(alpha, beta, gamma, delta, A, B, C, D):
+
+    RAB2 = np.dot(A - B, A - B)
+    RCD2 = np.dot(C - D, C - D)
+    
+    p = alpha + beta
+    q = gamma + delta
+
+    P = (alpha * A + beta * B) / p
+    Q = (gamma * C + delta * D) / q
+
+    RPQ2 = np.dot(P - Q, P - Q)
+
+    K_ab = np.exp(-alpha * beta / p * RAB2)
+    K_cd = np.exp(-gamma * delta / q * RCD2)
+    
+    T = (p * q / (p + q)) * RPQ2
+
+    F0 = boys_function(T)
+    prefactor = 2 * (np.pi ** 2.5) / (p * q * np.sqrt(p + q))
+
+    return prefactor * K_ab * K_cd * F0
+
+
+def eri(bf1, bf2, bf3, bf4):
+    value = 0.0
+
+    for i in range(bf1.nprimitive):
+        alpha = bf1.exponents[i]
+        ci = bf1.coefficients[i]
+        Ni = (2*alpha/np.pi)**0.75
+
+        for j in range(bf2.nprimitive):
+            beta = bf2.exponents[j]
+            cj = bf2.coefficients[j]
+            Nj = (2*beta/np.pi)**0.75
+
+            for k in range(bf3.nprimitive):
+                gamma = bf3.exponents[k]
+                ck = bf3.coefficients[k]
+                Nk = (2*gamma/np.pi)**0.75
+
+                for l in range(bf4.nprimitive):
+                    delta = bf4.exponents[l]
+                    cl = bf4.coefficients[l]
+                    Nl = (2*delta/np.pi)**0.75
+
+                    val = primitive_eri(alpha, beta, gamma, delta, bf1.center, bf2.center, bf3.center, bf4.center)
+                    value += ci * cj * ck * cl * Ni * Nj * Nk * Nl * val
+
+    return value
+
+
+def build_eri_tensor(basis):
+
+    n = len(basis)
+    eri_tensor = np.zeros((n, n, n, n))
+
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                for l in range(n):
+                    eri_tensor[i, j, k, l] = eri( basis[i], basis[j], basis[k], basis[l] )
+
+    return eri_tensor
+
+
