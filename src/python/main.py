@@ -4,6 +4,7 @@ from integrals import build_overlap_matrix
 from integrals import build_kinetic_matrix
 from integrals import build_nuclear_matrix
 from integrals import build_eri_tensor
+from scf import scf
 
 mol = Molecule("../../examples/h2.xyz")
 
@@ -53,3 +54,9 @@ print("\nSome ERI values:")
 print("(0 0 | 0 0):", ERI[0,0,0,0])
 print("(0 0 | 1 1):", ERI[0,0,1,1])
 print("(0 1 | 0 1):", ERI[0,1,0,1])
+
+
+nelec = 2
+nocc = nelec // 2
+E_total = scf(H, S, ERI, nocc, mol.nuclear_repulsion())
+print("\nFinal RHF Energy:", E_total)
